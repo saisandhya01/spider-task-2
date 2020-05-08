@@ -1,0 +1,27 @@
+body{
+  background-color: #cf6395;
+}
+.title{
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%);
+    color:blue;
+    font-family: Helvetica;
+}
+.new-game{
+    font-size: 20px;
+    color: green;
+    font-weight: bold;
+    
+    margin-left: 2%;
+    cursor: pointer;
+}
+#canvas{
+    background-color: white;
+    position: absolute;
+    top:40%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+}
