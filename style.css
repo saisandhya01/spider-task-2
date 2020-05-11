@@ -9,13 +9,38 @@ body{
     color:blue;
     font-family: Helvetica;
 }
-.new-game{
+.start-game{
     font-size: 20px;
     color: green;
     font-weight: bold;
     
     margin-left: 2%;
     cursor: pointer;
+}
+#pause{
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 2%;
+    padding-top: 2%;
+    cursor: pointer;
+}
+#resume{
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.instructions{
+    color: darkblue;
+    position: absolute;
+    font-size: 16px;
+    top: 10%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%);
 }
 #canvas{
     background-color: white;
@@ -24,4 +49,5 @@ body{
     left: 0%;
     right: 0%;
     bottom: 0%;
+    cursor: pointer;
 }

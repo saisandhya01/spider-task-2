@@ -8,15 +8,23 @@
         <div class="title">
             <h1>Bubble Burst</h1>
         </div>
-        <div class="new-game" onclick="startGame()">
-            New game
+        <div class="start-game" onclick="startGame()">
+            START GAME
         </div>
+        <div id="pause">PAUSE</div>
+        <div id="resume">RESUME</div>
         <div class="instructions">
             <ol>
-                
+                <li>Random bubbles will be generated on click of START GAME button.</li>
+                <li>You need to burst the bubbles by clicking it.</li>
+                <li>More than half of the bubbles must be burst within a time limit of 10 secs</li>
+                <li>Scores are based on the number of bubbles clicked</li>
+                <li>You can pause and resume the game at any point of time</li>
+                <li>Come on,click the START GAME button and have loads of fun.. :)</li>
             </ol>
         </div>
         <canvas id="canvas">
+            Error 404
             Oops,your browser doesn't support the game.
         </canvas>
         <script src="./script.js" type="text/javascript"></script>
