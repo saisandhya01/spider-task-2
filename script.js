@@ -1,7 +1,18 @@
+
 let canvas=document.getElementById('canvas');
 canvas.width=window.outerWidth;
 canvas.height=(window.innerHeight/2)+70;
 let c=canvas.getContext('2d');
+if(typeof(Storage)!=="undefined"){
+    if(localStorage.getItem('best-Score')){
+        document.getElementById('best-score').innerHTML=Number(localStorage.getItem('best-Score'))
+    }
+    else{
+        localStorage.setItem('best-Score','0');
+        document.getElementById('best-score').innerHTML=Number(localStorage.getItem('best-Score'));
+    }
+}
+
 
 function randomNumber(min,max){
     return Math.random() *(max-min) +min;
@@ -28,29 +39,23 @@ function resolveCollision(bubble,otherBubble){
     const xDist = otherBubble.x - bubble.x;
     const yDist = otherBubble.y - bubble.y;
 
-    // Prevent accidental overlap of particles
     if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
 
-        // Grab angle between the two colliding particles
+        
         const angle = -Math.atan2(otherBubble.y - bubble.y, otherBubble.x - bubble.x);
 
-        // Store mass in var for better readability in collision equation
         const m1 = bubble.mass;
         const m2 = otherBubble.mass;
 
-        // Velocity before equation
         const u1 = rotate(bubble.v, angle);
         const u2 = rotate(otherBubble.v, angle);
 
-        // Velocity after 1d collision equation
         const v1 = { x: u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), y: u1.y };
         const v2 = { x: u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), y: u2.y };
 
-        // Final velocity after rotating axis back to original location
         const vFinal1 = rotate(v1, -angle);
         const vFinal2 = rotate(v2, -angle);
 
-        // Swap particle velocities for realistic bounce effect
         bubble.v.x = vFinal1.x;
         bubble.v.y = vFinal1.y;
 
@@ -59,7 +64,7 @@ function resolveCollision(bubble,otherBubble){
     }
 }
 
-
+let clickCount=0;
 class Bubble{
     constructor(x,y,radius,color){
         this.x=x
@@ -81,7 +86,6 @@ class Bubble{
         c.closePath()
     }
     isClicked(){
-        console.log(mouse.x,mouse.y)
         canvas.addEventListener('click',(event)=>{
             mouse.x=event.offsetX
             mouse.y=event.offsetY
@@ -113,10 +117,16 @@ class Bubble{
 
     }
 }
+let seconds=0;
+let interval=null;
+function stopwatch(){
+   seconds++;
+   document.getElementById('score-data').innerHTML=seconds;
+}
 let bubbles=[];
 function init(){
-    for(let i=0;i<50;i++){
-    const radius=30;
+    for(let i=0;i<25;i++){
+    const radius=50;
     let x=randomNumber(radius,canvas.width-radius);
     let y=randomNumber(radius,canvas.height-radius);
     if(i!=0){
@@ -150,7 +160,11 @@ function animate(){
     });
     for(let i=bubbles.length-1;i>=0;i--){
         if(bubbles[i].destroy){
+            clickCount++;
             bubbles.splice(i,1);
+            if(clickCount===25){
+                stopGame();
+            }
         }
     }
     if(!paused){
@@ -160,4 +174,22 @@ function animate(){
 function startGame(){
     init();
     animate();
+    seconds=0;
+    interval=window.setInterval(stopwatch,1000);
+}
+function stopGame(){
+    window.clearInterval(interval);
+    console.log(localStorage.getItem('best-Score'))
+    console.log(document.getElementById('best-score').innerHTML)
+    if(document.getElementById('best-score').innerHTML===0){
+        console.log('working?');
+        localStorage.setItem('best-Score',seconds);
+        document.getElementById('best-score').innerHTML=localStorage.getItem('best-Score');
+    }
+    else if(seconds<document.getElementById('best-score').innerHTML){
+        console.log('hi');
+        localStorage.setItem('best-Score',seconds);
+        document.getElementById('best-score').innerHTML=localStorage.getItem('best-Score');
+    }
+    
 }
