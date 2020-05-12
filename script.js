@@ -3,6 +3,7 @@ let canvas=document.getElementById('canvas');
 canvas.width=window.outerWidth;
 canvas.height=(window.innerHeight/2)+70;
 let c=canvas.getContext('2d');
+
 if(typeof(Storage)!=="undefined"){
     if(localStorage.getItem('best-Score')){
         document.getElementById('best-score').innerHTML=Number(localStorage.getItem('best-Score'))
@@ -17,13 +18,16 @@ if(typeof(Storage)!=="undefined"){
 function randomNumber(min,max){
     return Math.random() *(max-min) +min;
 }
+
 function distance(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
 }
+
 const mouse={
     x: 0,
     y: 0
 }
+
 function rotate(velocity, angle) {
     const rotatedVelocities = {
         x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
@@ -32,6 +36,7 @@ function rotate(velocity, angle) {
 
     return rotatedVelocities;
 }
+
 function resolveCollision(bubble,otherBubble){
     const xVelocityDiff = bubble.v.x - otherBubble.v.x;
     const yVelocityDiff = bubble.v.y - otherBubble.v.y;
@@ -43,7 +48,6 @@ function resolveCollision(bubble,otherBubble){
 
         
         const angle = -Math.atan2(otherBubble.y - bubble.y, otherBubble.x - bubble.x);
-
         const m1 = bubble.mass;
         const m2 = otherBubble.mass;
 
@@ -119,10 +123,18 @@ class Bubble{
 }
 let seconds=0;
 let interval=null;
+
 function stopwatch(){
    seconds++;
    document.getElementById('score-data').innerHTML=seconds;
+   if(seconds>10){
+       if(clickCount<=18){
+           alert('Oops,better luck next time.Click resume to start')
+           paused=true;
+       }
+   }
 }
+
 let bubbles=[];
 function init(){
     for(let i=0;i<25;i++){
@@ -142,16 +154,20 @@ function init(){
     bubbles.push(new Bubble(x,y,radius,'purple'));
     }
 }
+
 let paused=false
 pause=document.getElementById('pause')
 resume=document.getElementById('resume')
+
 pause.onclick=()=>{
     paused=true;
 }
+
 resume.onclick=()=>{
     paused=false;
     requestAnimationFrame(animate);
 }
+
 function animate(){
     c.clearRect(0,0,canvas.width,canvas.height);
     bubbles.forEach(bubble=>{
@@ -171,12 +187,14 @@ function animate(){
       requestAnimationFrame(animate);
     }
 }
+
 function startGame(){
     init();
     animate();
     seconds=0;
     interval=window.setInterval(stopwatch,1000);
 }
+
 function stopGame(){
     window.clearInterval(interval);
     console.log(localStorage.getItem('best-Score'))
