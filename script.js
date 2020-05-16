@@ -13,7 +13,7 @@ if(typeof(Storage)!=="undefined"){
         document.getElementById('best-score').innerHTML=Number(localStorage.getItem('best-Score'));
     }
 }
-
+let pop=new Audio('pop.mp3');
 
 function randomNumber(min,max){
     return Math.random() *(max-min) +min;
@@ -94,6 +94,7 @@ class Bubble{
             mouse.x=event.offsetX
             mouse.y=event.offsetY
             if(distance(this.x,this.y,mouse.x,mouse.y)-this.radius<0){
+                pop.play();
                 this.destroy=true
             }
         })
@@ -127,12 +128,13 @@ let interval=null;
 function stopwatch(){
    seconds++;
    document.getElementById('score-data').innerHTML=seconds;
+   /*
    if(seconds>10){
-       if(clickCount<=18){
+       if(clickCount<=3){
            alert('Oops,better luck next time.Click resume to start')
            paused=true;
        }
-   }
+   }*/
 }
 
 let bubbles=[];
